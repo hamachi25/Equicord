@@ -10,7 +10,7 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 
 ### Extra included plugins
 <details>
-<summary>150 additional plugins</summary>
+<summary>149 additional plugins</summary>
 
 ### All Platforms
 - AllCallTimers by MaxHerbold & D3SOX
@@ -44,7 +44,6 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - DecodeBase64 by ThePirateStoner
 - DeadMembers by Kyuuhachi
 - Demonstration by Samwich
-- DisableAnimations by S€th
 - DisableCameras by Joona
 - DoNotLeak by Perny
 - DontFilterMe by Samwich
@@ -66,10 +65,8 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - GodMode by Tolgchu
 - GoodPerson by nin0dev & mantikafasi
 - GoogleThat by Samwich
-- GrammarFix by S€th
 - HideChatButtons by iamme
 - HideMessage by Hanzy
-- HideScreenShare by thororen
 - HideServers by bepvte
 - HolyNotes by Wolfie
 - HomeTyping by Samwich
@@ -126,6 +123,7 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - ShowBadgesInChat by Inbestigator & KrystalSkull
 - Signature by KrystalSkull
 - SidebarChat by Joona
+- StatsfmRPC by Crxaw & vmohammad
 - Slap by Korbo
 - SoundBoardLogger by Moxxie, fres, echo, maintained by thororen
 - StatusPresets by iamme
@@ -149,7 +147,6 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - VencordRPC by AutumnVN
 - VideoSpeed by Samwich
 - ViewRawVariant (ViewRaw2) by Kyuuhachi
-- VoiceChannelLog by Sqaaakoi & maintained by thororen
 - VoiceChatUtilities by D3SOX
 - WebpackTarball by Kyuuhachi
 - WhitelistedEmojis by Creations
@@ -172,6 +169,7 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 ### Equicord Devbuilds Only
 - FurudoSpeak by example-git
 - Shakespearean by vmohammad
+- VoiceChannelLog by Sqaaakoi & maintained by thororen
 - VoiceJoinMessages by Sqaaakoi & maintained by thororen
 
 </details>
@@ -188,6 +186,7 @@ MacOS
 
 Linux
 - [CLI](https://github.com/Equicord/Equilotl/releases/latest/download/EquilotlCli-Linux)
+- [AUR](https://aur.archlinux.org/packages?O=0&K=equibop)
 ```shell
 sh -c "$(curl -sS https://raw.githubusercontent.com/Equicord/Equicord/refs/heads/main/misc/install.sh)"
 ```
