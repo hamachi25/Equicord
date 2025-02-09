@@ -130,7 +130,8 @@ export const Settings = () => {
                     <Forms.FormText>
                         <p>
                             Currently LINE stickers/emojis supported only. <br />
-                            Get Telegram stickers with <a href="https://github.com/lekoOwO/MoreStickersConverter">MoreStickersConverter</a>.
+
+                            Get Telegram stickers with <a href="#" onClick={() => VencordNative.native.openExternal("https://github.com/lekoOwO/MoreStickersConverter")}> MoreStickersConverter</a>.
                         </p>
                     </Forms.FormText>
                     <Flex flexDirection="row" style={{
