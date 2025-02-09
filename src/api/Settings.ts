@@ -32,10 +32,11 @@ export interface Settings {
     autoUpdate: boolean;
     autoUpdateNotification: boolean;
     useQuickCss: boolean;
-    enableReactDevtools: boolean;
-    themeLinks: string[];
+    eagerPatches: boolean;
     enabledThemes: string[];
     enabledThemeLinks: string[];
+    enableReactDevtools: boolean;
+    themeLinks: string[];
     frameless: boolean;
     transparent: boolean;
     updateRelaunch: boolean;
@@ -91,6 +92,7 @@ const DefaultSettings: Settings = {
     autoUpdateNotification: true,
     useQuickCss: true,
     themeLinks: [],
+    eagerPatches: IS_REPORTER,
     enabledThemes: [],
     enabledThemeLinks: [],
     enableReactDevtools: false,
@@ -234,6 +236,30 @@ export function migratePluginSettings(name: string, ...oldNames: string[]) {
             break;
         }
     }
+}
+
+export function migratePluginSetting(pluginName: string, oldSetting: string, newSetting: string) {
+    const settings = SettingsStore.plain.plugins[pluginName];
+    if (!settings) return;
+
+    if (!Object.hasOwn(settings, oldSetting) || Object.hasOwn(settings, newSetting)) return;
+
+    settings[newSetting] = settings[oldSetting];
+    delete settings[oldSetting];
+    SettingsStore.markAsChanged();
+}
+
+export function migrateSettingFromPlugin(newPlugin: string, newSetting: string, oldPlugin: string, oldSetting: string) {
+    const newSettings = SettingsStore.plain.plugins[newPlugin];
+    const oldSettings = SettingsStore.plain.plugins[oldPlugin];
+    if (!oldSettings || !Object.hasOwn(oldSettings, oldSetting)) return;
+    if (!newSettings || (Object.hasOwn(newSettings, newSetting))) return;
+
+    if (Object.hasOwn(newSettings, newSetting)) return;
+
+    newSettings[newSetting] = oldSettings[oldSetting];
+    delete oldSettings[oldSetting];
+    SettingsStore.markAsChanged();
 }
 
 export function definePluginSettings<

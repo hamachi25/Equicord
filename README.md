@@ -10,7 +10,7 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 
 ### Extra included plugins
 <details>
-<summary>149 additional plugins</summary>
+<summary>150 additional plugins</summary>
 
 ### All Platforms
 - AllCallTimers by MaxHerbold & D3SOX
@@ -56,6 +56,7 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - FixFileExtensions by thororen
 - FrequentQuickSwitcher by Samwich
 - FriendshipRanks by Samwich
+- FullVcPfp by mochie
 - FriendTags by Samwich
 - GensokyoRadioRPC by RyanCaoDev & Prince527
 - GifCollections by Aria & Creations
@@ -77,7 +78,6 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - ImagePreview by Creations
 - ImgToGif by zyqunix
 - InRole by nin0dev
-- IrcColors by Grzesiek11
 - IRememberYou by zoodogood
 - Jumpscare by Surgedevs
 - JumpToStart by Samwich
@@ -94,6 +94,7 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - MessageTranslate by Samwich
 - ModalFade by Kyuuhachi
 - MoreStickers by Leko & Arjix
+- MoreThemes by Kyuuhachi
 - NeverPausePreviews by vappstar
 - NewPluginsManager by Sqaaakoi
 - NoAppsAllowed by kvba
@@ -114,8 +115,8 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - Quoter by Samwich
 - RemixMe by kvba
 - RepeatMessage by Tolgchu
-- ReplaceActivityTypes by Nyako
 - ReplyPingControl by ant0n & MrDiamond
+- RPCEditor by Nyako & nin0dev
 - RPCStats by Samwich
 - SearchFix by Jaxx
 - SekaiStickers by MaiKokain
@@ -135,6 +136,7 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - ThemeLibrary by Fafa
 - Timezones by Aria
 - Title by Kyuuhachi
+- toggleVideoBind by mochie
 - TosuRPC by AutumnVN
 - Translate+ by Prince527 & Ven
 - UnitConverter by sadan
@@ -148,7 +150,7 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - VideoSpeed by Samwich
 - ViewRawVariant (ViewRaw2) by Kyuuhachi
 - VoiceChatUtilities by D3SOX
-- WebpackTarball by Kyuuhachi
+- VoiceJoinMessages by Sqaaakoi & maintained by thororen
 - WhitelistedEmojis by Creations
 - WhosWatching by fres
 - WigglyText by nexpid
@@ -170,7 +172,6 @@ You can join our [discord server](https://discord.gg/5Xh2W87egW) for commits, ch
 - FurudoSpeak by example-git
 - Shakespearean by vmohammad
 - VoiceChannelLog by Sqaaakoi & maintained by thororen
-- VoiceJoinMessages by Sqaaakoi & maintained by thororen
 
 </details>
 
@@ -186,11 +187,10 @@ MacOS
 
 Linux
 - [CLI](https://github.com/Equicord/Equilotl/releases/latest/download/EquilotlCli-Linux)
-- [AUR](https://aur.archlinux.org/packages?O=0&K=equibop)
+- [AUR](https://aur.archlinux.org/packages?O=0&K=equicord)
 ```shell
 sh -c "$(curl -sS https://raw.githubusercontent.com/Equicord/Equicord/refs/heads/main/misc/install.sh)"
 ```
-
 ## Installing Equicord Devbuild
 
 ### Dependencies
