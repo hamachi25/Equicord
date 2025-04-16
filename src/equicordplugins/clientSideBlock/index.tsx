@@ -152,8 +152,8 @@ export default definePlugin({
         {
             find: "._areActivitiesExperimentallyHidden=(",
             replacement: {
-                match: /new Date\(\i\):null;/,
-                replace: "$&if($self.shouldHideUser(this.props.user.id, this.props.channel.id)) return null; "
+                match: /(?<=user:(\i),guildId:\i,channel:(\i).*?)BOOST_GEM_ICON\}\}\)\)\};/,
+                replace: "$&if($self.shouldHideUser($1.id, $2.id)) return null; "
             }
         },
         // stop the role header from displaying if all users with that role are hidden (wip sorta)
@@ -167,7 +167,7 @@ export default definePlugin({
         },
         // "1 blocked message"
         {
-            find: "#{intl::BLOCKED_MESSAGES_HIDE}",
+            find: "#{intl::BLOCKED_MESSAGE_COUNT}}",
             replacement: {
                 match: /\i.memo\(function\(\i\){/,
                 replace: "$&return null;"
@@ -179,7 +179,7 @@ export default definePlugin({
             find: ".GUILD_APPLICATION_PREMIUM_SUBSCRIPTION||",
             replacement: [
                 {
-                    match: /let \i;let\{repliedAuthor:/,
+                    match: /let \i,\{repliedAuthor:/,
                     replace: "if(arguments[0] != null && arguments[0].referencedMessage.message != null) { if($self.shouldHideUser(arguments[0].referencedMessage.message.author.id, arguments[0].baseMessage.messageReference.channel_id)) { return $self.hiddenReplyComponent(); } }$&"
                 }
             ]

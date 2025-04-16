@@ -26,10 +26,12 @@ export default definePlugin({
     patches: [
         {
             find: '"ChannelAttachButton"',
-            replacement: {
-                match: /\.attachButtonInner,"aria-label":.{0,50},onDoubleClick:(.+?:void 0),.{0,30}?\.\.\.(\i),/,
-                replace: "$&onClick:$1,onContextMenu:$2.onClick,",
-            },
+            replacement: [
+                {
+                    match: /\.attachButtonInner,"aria-label":.{0,50},onDoubleClick:(.+?:void 0),.{0,100}\},(\i)\).{0,100}children:\i/,
+                    replace: "$&,onClick:$1,onContextMenu:$2.onClick,",
+                },
+            ]
         },
     ],
 });

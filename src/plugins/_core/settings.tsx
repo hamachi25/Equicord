@@ -17,6 +17,7 @@
 */
 
 import { Settings } from "@api/Settings";
+import ThemesTab from "@components/ThemeSettings/ThemesTab";
 import BackupAndRestoreTab from "@components/VencordSettings/BackupAndRestoreTab";
 import CloudTab from "@components/VencordSettings/CloudTab";
 import PatchHelperTab from "@components/VencordSettings/PatchHelperTab";
@@ -106,7 +107,7 @@ export default definePlugin({
                 section: "EquicordThemes",
                 label: "Themes",
                 searchableTitles: ["Themes"],
-                element: require("@components/ThemeSettings/ThemesTab").default,
+                element: ThemesTab,
                 className: "vc-themes"
             },
             !IS_UPDATER_DISABLED && {
@@ -130,7 +131,7 @@ export default definePlugin({
                 element: BackupAndRestoreTab,
                 className: "vc-backup-restore"
             },
-            {
+            IS_DEV && {
                 section: "EquicordPatchHelper",
                 label: "Patch Helper",
                 searchableTitles: ["Patch Helper"],
@@ -163,6 +164,9 @@ export default definePlugin({
                 belowNitro: getIntlMessage("APP_SETTINGS"),
                 aboveActivity: getIntlMessage("ACTIVITY_SETTINGS")
             };
+
+            if (!names[settingsLocation] || names[settingsLocation].endsWith("_SETTINGS"))
+                return firstChild === "PREMIUM";
 
             return header === names[settingsLocation];
         } catch {

@@ -16,7 +16,7 @@ permissions: write-all
 jobs:
     Build:
         name: Build Equicord
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
 
         steps:
             - uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
                   cache: "pnpm"
 
             - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: pnpm install --no-frozen-lockfile
 
             - name: Build web
               run: pnpm buildWebStandalone
@@ -59,21 +59,12 @@ jobs:
                   cp desktop/* release
                   for file in equibop/*; do
                     filename=$(basename "$file")
-                    cp "$file" "release/equicordDesktop${filename^}"
+                    cp "$file" "release/equibop${filename^}"
                   done
 
                   find release -size 0 -delete
                   rm release/package.json
                   rm release/*.map
-
-            - name: get-npm-version
-              id: package-version
-              uses: martinbeentjes/npm-get-version-action@v1.3.1
-
-            - name: Upload Equicord Tagged
-              if: startsWith(github.ref, 'refs/tags/')
-              run: |
-                  gh release upload v${{ steps.package-version.outputs.current-version}} --clobber dist/release/*
 
             - name: Upload Equicord Stable
               if: ${{ github.ref_name == 'main' }}

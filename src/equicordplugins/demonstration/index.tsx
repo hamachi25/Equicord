@@ -126,7 +126,6 @@ async function playSound(url: string) {
     audio.remove();
 }
 
-
 export default definePlugin({
     name: "Demonstration",
     description: "Plugin for taking theme screenshots - censors identifying images and text.",
@@ -138,7 +137,7 @@ export default definePlugin({
     settingsAboutComponent: () => {
         return (
             <>
-                <Text>To change your keycode, check out <a href="https://www.toptal.com/developers/keycode" target="_blank" rel="noreferrer">this tool</a>!</Text>
+                <Text>To change your keycode, check out <a href="https://www.toptal.com/developers/keycode" target="_blank" rel="noreferrer noopener">this tool</a>!</Text>
             </>
         );
     },
@@ -147,6 +146,5 @@ export default definePlugin({
     },
     stop() {
         document.removeEventListener("keydown", handleKeydown);
-    },
-
+    }
 });

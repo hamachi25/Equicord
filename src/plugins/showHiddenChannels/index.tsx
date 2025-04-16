@@ -205,7 +205,7 @@ export default definePlugin({
             replacement: [
                 // Make the channel appear as muted if it's hidden
                 {
-                    match: /{channel:(\i),name:\i,muted:(\i).+?;/,
+                    match: /\.subtitle,.+?;(?=return\(0,\i\.jsxs?\))(?<={channel:(\i),name:\i,muted:(\i).+?;)/,
                     replace: (m, channel, muted) => `${m}${muted}=$self.isHiddenChannel(${channel})?true:${muted};`
                 },
                 // Make voice channels also appear as muted if they are muted
@@ -218,6 +218,7 @@ export default definePlugin({
                 },
                 {
                     // Make muted channels also appear as unread if hide unreads is false and the channel is hidden
+                    // FIXME(Bundler change related): Remove old compatiblity once enough time has passed
                     predicate: () => settings.store.channelStyle === ChannelStyle.MutedUnread || settings.store.channelStyle === ChannelStyle.Unread,
                     match: /(?<=\.LOCKED(?:;if\(|:))(?<={channel:(\i).+?)/,
                     replace: (_, channel) => `!$self.isHiddenChannel(${channel})&&`
@@ -235,7 +236,7 @@ export default definePlugin({
                 },
                 {
                     // Hide unreads
-                    match: /{channel:(\i),name:\i,.+?unread:(\i).+?;/,
+                    match: /\.subtitle,.+?;(?=return\(0,\i\.jsxs?\))(?<={channel:(\i),name:\i,.+?unread:(\i).+?)/,
                     replace: (m, channel, unread) => `${m}${unread}=$self.isHiddenChannel(${channel})?false:${unread};`
                 }
             ]
@@ -516,7 +517,7 @@ export default definePlugin({
             }
         },
         {
-            find: '="NowPlayingViewStore",',
+            find: '"NowPlayingViewStore"',
             replacement: {
                 // Make active now voice states on hidden channels
                 match: /(getVoiceStateForUser.{0,150}?)&&\i\.\i\.canWithPartialContext.{0,20}VIEW_CHANNEL.+?}\)(?=\?)/,
@@ -620,7 +621,7 @@ export default definePlugin({
                     aria-hidden={true}
                     role="img"
                 >
-                    <path className="shc-evenodd-fill-current-color" d="M17 11V7C17 4.243 14.756 2 12 2C9.242 2 7 4.243 7 7V11C5.897 11 5 11.896 5 13V20C5 21.103 5.897 22 7 22H17C18.103 22 19 21.103 19 20V13C19 11.896 18.103 11 17 11ZM12 18C11.172 18 10.5 17.328 10.5 16.5C10.5 15.672 11.172 15 12 15C12.828 15 13.5 15.672 13.5 16.5C13.5 17.328 12.828 18 12 18ZM15 11H9V7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7V11Z" />
+                    <path fill="currentcolor" className="shc-evenodd-fill-current-color" d="M17 11V7C17 4.243 14.756 2 12 2C9.242 2 7 4.243 7 7V11C5.897 11 5 11.896 5 13V20C5 21.103 5.897 22 7 22H17C18.103 22 19 21.103 19 20V13C19 11.896 18.103 11 17 11ZM12 18C11.172 18 10.5 17.328 10.5 16.5C10.5 15.672 11.172 15 12 15C12.828 15 13.5 15.672 13.5 16.5C13.5 17.328 12.828 18 12 18ZM15 11H9V7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7V11Z" />
                 </svg>
             )}
         </Tooltip>

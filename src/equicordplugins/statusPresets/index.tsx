@@ -18,18 +18,17 @@
 
 import "./style.css";
 
-import { definePluginSettings, Settings } from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import { getUserSettingLazy } from "@api/UserSettings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { EquicordDevs } from "@utils/constants";
 import { proxyLazy } from "@utils/lazy";
 import { classes } from "@utils/misc";
-import { ModalProps, openModalLazy } from "@utils/modal";
+import { openModalLazy } from "@utils/modal";
 import { useForceUpdater } from "@utils/react";
 import definePlugin, { OptionType, StartAt } from "@utils/types";
 import { extractAndLoadChunksLazy, findByPropsLazy, findComponentByCodeLazy, findModuleId, wreq } from "@webpack";
 import { Button, Clickable, Menu, Toasts, UserStore, useState } from "@webpack/common";
-import { FunctionComponent } from "react";
 
 
 const settings = definePluginSettings({
@@ -59,10 +58,10 @@ interface DiscordStatus {
 const StatusStyles = findByPropsLazy("statusItem");
 // TODO: find clearCustomStatusHint original css/svg or replace
 const PMenu = findComponentByCodeLazy(".menuItemLabel", ".menuItemInner");
-const EmojiComponent = findComponentByCodeLazy(/\.translateSurrogatesToInlineEmoji\(\i.\i\),/);
+const EmojiComponent = findComponentByCodeLazy(/\.translateSurrogatesToInlineEmoji\(\i\.name\);/);
 
 const CustomStatusSettings = getUserSettingLazy("status", "customStatus")!;
-const StatsModule: { default: FunctionComponent<ModalProps>; } = proxyLazy(() => {
+const StatusModule = proxyLazy(() => {
     const id = findModuleId("this.renderCustomStatusInput()");
     return wreq(Number(id));
 });
@@ -71,7 +70,9 @@ const requireCustomStatusModal = extractAndLoadChunksLazy(["action:\"PRESS_ADD_C
 
 const openCustomStatusModalLazy = () => openModalLazy(async () => {
     await requireCustomStatusModal();
-    return props => <StatsModule.default {...props} />;
+    const key = Object.keys(StatusModule)[0];
+    const Component = StatusModule[key];
+    return props => <Component {...props} />;
 });
 
 function getExpirationMs(expiration: "TODAY" | number) {
@@ -124,13 +125,8 @@ const RenderStatusMenuItem = ({ status, update, disabled }: { status: DiscordSta
 
 
 const StatusSubMenuComponent = () => {
-    let premiumType;
-    if (Settings.plugins.NoNitroUpsell?.enabled) {
-        // @ts-ignore
-        premiumType = UserStore?.getCurrentUser()?._realPremiumType ?? UserStore?.getCurrentUser()?.premiumType ?? 0;
-    } else {
-        premiumType = UserStore?.getCurrentUser()?.premiumType ?? 0;
-    }
+    // @ts-ignore
+    const premiumType = UserStore?.getCurrentUser()?._realPremiumType ?? UserStore?.getCurrentUser()?.premiumType ?? 0;
     const update = useForceUpdater();
     return <Menu.Menu navId="sp-custom-status-submenu" onClose={() => { }}>
         {Object.entries((settings.store.StatusPresets as { [k: string]: DiscordStatus | undefined; })).map(([index, status]) => status != null ? <Menu.MenuItem
@@ -158,17 +154,16 @@ export default definePlugin({
         {
             find: "#{intl::CUSTOM_STATUS_SET_CUSTOM_STATUS}",
             replacement: {
-                match: /\.\i\i,children:.{0,70}\i\.\i\.string\(\i\.\i#{intl::SAVE}\)\}\)/,
+                match: /\.\i\i,children:\i\.\i\.string\(\i\.\i#{intl::SAVE}\)\}\)/,
                 replace: "$&,$self.renderRememberButton(this.state)"
             }
         },
         {
             find: "#{intl::STATUS_MENU_LABEL}",
             replacement: {
-                match: /"set-status-submenu-mobile-web".{150,165}void 0\}\)/,
-                replace: "$&,$self.render()"
-            },
-            all: true
+                match: /(:void 0\}\))\]/,
+                replace: "$1,$self.render()]"
+            }
         }
     ],
     render() {

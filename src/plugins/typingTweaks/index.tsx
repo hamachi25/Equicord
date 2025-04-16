@@ -16,14 +16,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { definePluginSettings } from "@api/Settings";
+import { definePluginSettings, Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { getCustomColorString } from "@equicordplugins/customUserColors";
 import { Devs } from "@utils/constants";
 import { openUserProfile } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
 import { Avatar, GuildMemberStore, React, RelationshipStore } from "@webpack/common";
 import { User } from "discord-types/general";
 import { PropsWithChildren } from "react";
+
+import managedStyle from "./style.css?managed";
 
 const settings = definePluginSettings({
     showAvatars: {
@@ -57,27 +60,28 @@ interface Props {
     guildId: string;
 }
 
+function typingUserColor(guildId: string, userId: string) {
+    if (!settings.store.showRoleColors) return;
+    const customColor = Settings.plugins.CustomUserColors.enabled ? getCustomColorString(userId, true) : null;
+    return customColor ?? GuildMemberStore.getMember(guildId, userId)?.colorString;
+}
+
 const TypingUser = ErrorBoundary.wrap(function ({ user, guildId }: Props) {
     return (
         <strong
+            className="vc-typing-user"
             role="button"
             onClick={() => {
                 openUserProfile(user.id);
             }}
             style={{
-                display: "grid",
-                gridAutoFlow: "column",
-                gap: "4px",
-                color: settings.store.showRoleColors ? GuildMemberStore.getMember(guildId, user.id)?.colorString : undefined,
-                cursor: "pointer"
+                color: settings.store.showRoleColors ? typingUserColor(guildId, user.id) : undefined,
             }}
         >
             {settings.store.showAvatars && (
-                <div style={{ marginTop: "4px" }}>
-                    <Avatar
-                        size="SIZE_16"
-                        src={user.getAvatarURL(guildId, 128)} />
-                </div>
+                <Avatar
+                    size="SIZE_16"
+                    src={user.getAvatarURL(guildId, 128)} />
             )}
             {GuildMemberStore.getNick(guildId!, user.id)
                 || (!guildId && RelationshipStore.getNickname(user.id))
@@ -94,6 +98,8 @@ export default definePlugin({
     authors: [Devs.zt],
     settings,
 
+    managedStyle,
+
     patches: [
         {
             find: "#{intl::THREE_USERS_TYPING}",
@@ -101,7 +107,7 @@ export default definePlugin({
                 {
                     // Style the indicator and add function call to modify the children before rendering
                     match: /(?<=children:\[(\i)\.length>0.{0,200}?"aria-atomic":!0,children:)\i(?<=guildId:(\i).+?)/,
-                    replace: "$self.renderTypingUsers({ users: $1, guildId: $2, children: $& }),style:$self.TYPING_TEXT_STYLE"
+                    replace: "$self.renderTypingUsers({ users: $1, guildId: $2, children: $& })"
                 },
                 {
                     // Changes the indicator to keep the user object when creating the list of typing users
@@ -117,12 +123,6 @@ export default definePlugin({
             ]
         }
     ],
-
-    TYPING_TEXT_STYLE: {
-        display: "grid",
-        gridAutoFlow: "column",
-        gridGap: "0.25em"
-    },
 
     buildSeveralUsers,
 
